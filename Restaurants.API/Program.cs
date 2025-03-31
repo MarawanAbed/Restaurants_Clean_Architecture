@@ -1,22 +1,20 @@
-
-using Microsoft.EntityFrameworkCore;
-using Restaurants.Infrastructure.Extension;
-using Restaurants.Infrastructure.Persistence;
+using Restaurants.Infrastructure.Extensions;
 using Restaurants.Infrastructure.Seeders;
+using Restaurants.Application.Extensions;
 
 namespace Restaurants.API
 {
-    public  class Program
+    public class Program
     {
-        public async static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services infrastructure
             builder.Services.AddInfrastructure(builder.Configuration);
-
-            // Add services to the container.
-
+            // Add services application
+            builder.Services.AddApplication();
+            ///////////////////////////////////////////
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -25,9 +23,9 @@ namespace Restaurants.API
             var app = builder.Build();
 
             // Seed the database
-            var scope= app.Services.CreateScope();
-            var sedder = scope.ServiceProvider.GetRequiredService<IRestaurantSeeder>();
-            await sedder.Seed();
+            var scope = app.Services.CreateScope();
+            await scope.ServiceProvider.GetRequiredService<IRestaurantSeeder>().Seed();
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -38,7 +36,6 @@ namespace Restaurants.API
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 

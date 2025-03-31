@@ -3,10 +3,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Restaurants.Domain.Repositories;
 using Restaurants.Infrastructure.Persistence;
+using Restaurants.Infrastructure.Repositories;
 using Restaurants.Infrastructure.Seeders;
 
-namespace Restaurants.Infrastructure.Extension
+namespace Restaurants.Infrastructure.Extensions
 {
     public static  class ServicesCollectionExtensions
     {
@@ -19,6 +21,7 @@ namespace Restaurants.Infrastructure.Extension
             });
             //we add as scoped cuz also addDbcontext add as scoped
             services.AddScoped<IRestaurantSeeder, RestaurantSeeder>();
+            services.AddScoped<IRestaurantsRepository, ResaurantsRepository>();
         }
 
 
