@@ -2,18 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Restaurants.Infrastructure.Extension;
 using Restaurants.Infrastructure.Persistence;
+using Restaurants.Infrastructure.Seeders;
 
 namespace Restaurants.API
 {
-    public class Program
+    public  class Program
     {
-        public static void Main(string[] args)
+        public async static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
-
-
-
+            // Add services infrastructure
             builder.Services.AddInfrastructure(builder.Configuration);
 
             // Add services to the container.
@@ -25,6 +24,10 @@ namespace Restaurants.API
 
             var app = builder.Build();
 
+            // Seed the database
+            var scope= app.Services.CreateScope();
+            var sedder = scope.ServiceProvider.GetRequiredService<IRestaurantSeeder>();
+            await sedder.Seed();
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
