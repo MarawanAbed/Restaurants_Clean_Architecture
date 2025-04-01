@@ -21,20 +21,5 @@ namespace Restaurants.Application.Restaurants.Dtos
         //one restaurant has many dishes
         public List<DishDto> Dishes { get; set; } =[];
 
-        public static RestaurantDto FromRestaurant(Restaurant restaurant)
-        {
-            return new RestaurantDto
-            {
-                Id = restaurant.Id,
-                Name = restaurant.Name,
-                Description = restaurant.Description,
-                Category = restaurant.Category,
-                HasDelivery = restaurant.HasDelivery,
-                Street = restaurant.Address.Street,
-                City = restaurant.Address.City,
-                ZipCode = restaurant.Address.ZipCode,
-                Dishes = restaurant.Dishes.Select(DishDto.FromDish).ToList()
-            };
-        }
     }
 }

@@ -8,6 +8,8 @@ namespace Restaurants.Application.Extensions
         public static void AddApplication(this IServiceCollection services)
         {
             services.AddScoped<IRestaurantsServices, RestaurantsServices>();
+            services.AddAutoMapper(typeof(ServicesCollectionExtensions).Assembly);
+            //like that we tell automapper to scan all the assemblies in the project
         }
     }
 }

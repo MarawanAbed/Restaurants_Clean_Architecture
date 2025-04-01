@@ -14,16 +14,5 @@ namespace Restaurants.Application.Dishes
         public int? KiloCalories { get; set; }
 
 
-        public static DishDto FromDish(Dish dish)
-        {
-            return new DishDto
-            {
-                Id = dish.Id,
-                Name = dish.Name,
-                Description = dish.Description,
-                Price = dish.Price,
-                KiloCalories = dish.KiloCalories,
-            };
-        }
     }
 }
