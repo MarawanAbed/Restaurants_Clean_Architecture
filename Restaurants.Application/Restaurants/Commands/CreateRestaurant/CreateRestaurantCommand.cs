@@ -1,9 +1,10 @@
 ﻿
 
+using MediatR;
 
-namespace Restaurants.Application.Restaurants.Dtos
+namespace Restaurants.Application.Restaurants.Commands.CreateRestaurant
 {
-    public class CreateRestaurantDto
+    public class CreateRestaurantCommand : IRequest<int>//it will take return type of handler which is int cuz when we create an restuarant we return an id
     {
         public string Name { get; set; } = default!;
         public string Description { get; set; } = default!;
@@ -16,3 +17,6 @@ namespace Restaurants.Application.Restaurants.Dtos
         public string ZipCode { get; set; } = default!;
     }
 }
+
+//so first we create an command for create restaurant (Request)
+//next we need to create a handler for this command (Response)

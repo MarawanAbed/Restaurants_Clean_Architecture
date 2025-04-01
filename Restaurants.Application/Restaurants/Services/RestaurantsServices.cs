@@ -5,7 +5,7 @@ using Restaurants.Application.Restaurants.Dtos;
 using Restaurants.Domain.Entities;
 using Restaurants.Domain.Repositories;
 
-namespace Restaurants.Application.Restaurants
+namespace Restaurants.Application.Restaurants.Services
 {
     internal class RestaurantsServices(IRestaurantsRepository repository,
         ILogger<RestaurantsServices> logger, IMapper mapper) : IRestaurantsServices
