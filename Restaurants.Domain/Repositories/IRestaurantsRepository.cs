@@ -10,5 +10,9 @@ namespace Restaurants.Domain.Repositories
     {
         Task<IEnumerable<Restaurant>> GetRestaurants();
         //we gonna to implement it in infrastructure
+
+        Task<Restaurant?> GetRestaurantById(int id);
+
+        Task<int> CreateRestaurant(Restaurant restaurant);
     }
 }

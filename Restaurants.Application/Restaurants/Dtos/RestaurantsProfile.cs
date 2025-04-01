@@ -19,7 +19,15 @@ namespace Restaurants.Application.Restaurants.Dtos
                opt => opt.MapFrom(s => s.Address != null ? s.Address.ZipCode : null))
                .ForMember(d=> d.Dishes,opt=> opt.MapFrom(s => s.Dishes));
             //we need to create a mapping for DishDto cuz the source is dish entities
-            CreateMap<RestaurantDto, Restaurant>();
+
+
+            CreateMap<CreateRestaurantDto, Restaurant>()
+                .ForMember(d => d.Address, opt => opt.MapFrom(s => new Address
+                {
+                    Street = s.Street,
+                    City = s.City,
+                    ZipCode = s.ZipCode
+                }));
 
 
         }

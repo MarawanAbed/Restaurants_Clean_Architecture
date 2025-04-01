@@ -12,7 +12,5 @@ namespace Restaurants.Application.Dishes
         public decimal Price { get; set; }
 
         public int? KiloCalories { get; set; }
-
-
     }
 }
