@@ -17,14 +17,19 @@ namespace Restaurants.Application.Restaurants.Validators
             RuleFor(dto => dto.ContactNumber).Matches(@"^\d{10}$").WithMessage("Please provide a valid phone number");
 
             //using that cutsom validation
+            //RuleFor(dto => dto.Category)
+            //    .Custom((category, context) =>
+            //    {
+            //        if (!validCategories.Contains(category))
+            //        {
+            //            context.AddFailure("Category is not valid");
+            //        }
+            //    });
+
+            //or we can do that throw must 
             RuleFor(dto => dto.Category)
-                .Custom((category, context) =>
-                {
-                    if (!validCategories.Contains(category))
-                    {
-                        context.AddFailure("Category is not valid");
-                    }
-                });
+                .Must(category => validCategories.Contains(category))
+                .WithMessage("Category is not valid");
         }
     }
 }
