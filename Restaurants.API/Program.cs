@@ -18,6 +18,7 @@ namespace Restaurants.API
                 .ReadFrom.Configuration(context.Configuration);
             });
             builder.Services.AddScoped<ErrorHandlingMiddleware>();
+            builder.Services.AddScoped<ReqestTimeLoggingMiddleware>();
             // Add services infrastructure
             builder.Services.AddInfrastructure(builder.Configuration);
             // Add services application
@@ -33,6 +34,7 @@ namespace Restaurants.API
             var scope = app.Services.CreateScope();
             await scope.ServiceProvider.GetRequiredService<IRestaurantSeeder>().Seed();
             app.UseMiddleware<ErrorHandlingMiddleware>();
+            app.UseMiddleware<ReqestTimeLoggingMiddleware>();
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
