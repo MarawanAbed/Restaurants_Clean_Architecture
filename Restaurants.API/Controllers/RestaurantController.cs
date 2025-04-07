@@ -50,10 +50,7 @@ namespace Restaurants.API.Controllers
         public async Task<ActionResult<RestaurantDto>> GetById(int id)
         {
             var restaurant = await mediator.Send(new GetRestaurantByIdQuery(id));
-            if (restaurant is null)
-            {
-                return NotFound();
-            }
+
             return Ok(restaurant);
         }
 
