@@ -14,7 +14,7 @@ namespace Restaurants.Application.Restaurants.Queries.GetRestaurantsById
     {
         public async Task<RestaurantDto?> Handle(GetRestaurantByIdQuery request, CancellationToken cancellationToken)
         {
-            logger.LogInformation("Get restaurant by id {id}", request.Id);
+            logger.LogInformation("Get restaurant by id :{@Id}", request.Id);
             var restaurant = await repository.GetRestaurantById(request.Id);
             return mapper.Map<RestaurantDto?>(restaurant);
         }

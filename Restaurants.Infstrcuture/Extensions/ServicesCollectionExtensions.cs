@@ -17,7 +17,8 @@ namespace Restaurants.Infrastructure.Extensions
             services.AddDbContext<RestaurantsDbContext>(options =>
             {
                 var connectionString = configuration.GetConnectionString("DefaultConnection");
-                options.UseSqlServer(connectionString);
+                options.UseSqlServer(connectionString)
+                .EnableSensitiveDataLogging();
             });
             //we add as scoped cuz also addDbcontext add as scoped
             services.AddScoped<IRestaurantSeeder, RestaurantSeeder>();

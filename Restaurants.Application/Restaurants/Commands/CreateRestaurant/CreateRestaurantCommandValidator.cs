@@ -13,7 +13,7 @@ namespace Restaurants.Application.Restaurants.Commands.CreateRestaurant
             RuleFor(dto => dto.Description).NotEmpty().WithMessage("Description is required");
             //RuleFor(dto => dto.Category).NotEmpty().WithMessage("Category is required");
             RuleFor(dto => dto.ContactEmail).EmailAddress().WithMessage("Please provide a valid email");
-            RuleFor(dto => dto.ContactNumber).Matches(@"^\d{10}$").WithMessage("Please provide a valid phone number");
+            //RuleFor(dto => dto.ContactNumber).Matches(@"^\d{10}$").WithMessage("Please provide a valid phone number");
 
             //using that cutsom validation
             //RuleFor(dto => dto.Category)
