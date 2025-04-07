@@ -12,7 +12,7 @@ namespace Restaurants.API.Controllers
     //if we want to make it manually we can remove the [apiController] and add the model.state.isvalid in the controller
     //also apiController add another parameters which is by default sending paramters [formBody]
     [Route("api/[controller]")]
-    public class RestaurantController (IMediator mediator) : ControllerBase
+    public class RestaurantController(IMediator mediator) : ControllerBase
     {
         [HttpGet]
         //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<RestaurantDto>))]
@@ -23,10 +23,32 @@ namespace Restaurants.API.Controllers
             return Ok(restaurants);
         }
 
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<RestaurantDto>> GetById(int id)
+        //{
+        //    try
+        //    {
+        //        //var restaurant = await restaurantsServices.GetRestaurantById(id);
+        //        var restaurant = await mediator.Send(new GetRestaurantByIdQuery(id));
+        //        if (restaurant is null)
+        //        {
+        //            return NotFound();
+        //        }
+        //        return Ok(restaurant);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
+        //to avoid every time we create an try and catch over every controller we gonna create an middleware
+        //one try catch block for incoming http request
+
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RestaurantDto))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<RestaurantDto>> GetById(int id)
         {
-            //var restaurant = await restaurantsServices.GetRestaurantById(id);
             var restaurant = await mediator.Send(new GetRestaurantByIdQuery(id));
             if (restaurant is null)
             {
@@ -36,7 +58,7 @@ namespace Restaurants.API.Controllers
         }
 
         [HttpPost]
-         [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Create(CreateRestaurantCommand createRestaurantCommand)
         {
             //var id = await restaurantsServices.CreateRestaurant(createRestaurantDto); 

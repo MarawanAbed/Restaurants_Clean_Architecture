@@ -3,6 +3,7 @@ using Restaurants.Infrastructure.Seeders;
 using Restaurants.Application.Extensions;
 using Serilog;
 using Serilog.Formatting.Compact;
+using Restaurants.API.Middlewares;
 namespace Restaurants.API
 {
     public class Program
@@ -16,6 +17,7 @@ namespace Restaurants.API
                 configuration
                 .ReadFrom.Configuration(context.Configuration);
             });
+            builder.Services.AddScoped<ErrorHandlingMiddleware>();
             // Add services infrastructure
             builder.Services.AddInfrastructure(builder.Configuration);
             // Add services application
@@ -30,7 +32,7 @@ namespace Restaurants.API
             // Seed the database
             var scope = app.Services.CreateScope();
             await scope.ServiceProvider.GetRequiredService<IRestaurantSeeder>().Seed();
-
+            app.UseMiddleware<ErrorHandlingMiddleware>();
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
