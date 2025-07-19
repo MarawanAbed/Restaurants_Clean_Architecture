@@ -4,6 +4,7 @@ using Restaurants.Application.Extensions;
 using Serilog;
 using Serilog.Formatting.Compact;
 using Restaurants.API.Middlewares;
+using Restaurants.Domain.Entities;
 namespace Restaurants.API
 {
     public class Program
@@ -27,7 +28,33 @@ namespace Restaurants.API
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(c=>
+            {
+                    c.AddSecurityDefinition("bearerAuth",
+                        new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                        {
+                            Description = "JWT Authorization header using the Bearer scheme. Example: \"{token}\"",
+                            Name = "Authorization",
+                            Scheme="Bearer",
+                            Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http //we put it over http so that not every time we call apikey i need to send it
+                        });
+
+                c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+                    {
+                    {
+                        new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                        {
+                            Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                            {
+                                Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                                Id = "bearerAuth"
+                            }
+                        },
+                        new string[] {}
+                    }
+                });
+            }
+            );
             var app = builder.Build();
 
             // Seed the database
@@ -44,6 +71,9 @@ namespace Restaurants.API
             app.UseSerilogRequestLogging();
 
             app.UseHttpsRedirection();
+
+            app.MapGroup("/api/identity").MapIdentityApi<User>();
+            //when we put it now we add afew identity endpoints like register , login ,refresh token , logout and get user info
 
             app.UseAuthorization();
 

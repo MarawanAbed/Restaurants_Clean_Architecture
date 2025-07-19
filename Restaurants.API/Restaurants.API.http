@@ -1,6 +1,22 @@
-@Restaurants.API_HostAddress = http://localhost:5003
+@Restaurants.API_HostAddress = https://localhost:7060
 
 GET {{Restaurants.API_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+POST {{Restaurants.API_HostAddress}}/register
+Content-Type: application/json
+{
+  "email" : "testuser@gmail.com",
+  "password" : "Test1234!"
+}
+
+###
+
+POST {{Restaurants.API_HostAddress}}/login
+Content-Type: application/json
+{
+    "email" : "testuser@gmail.com",
+    "password" : "Test1234!"
+}
