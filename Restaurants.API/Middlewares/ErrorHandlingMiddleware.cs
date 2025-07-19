@@ -5,13 +5,14 @@ namespace Restaurants.API.Middlewares
 {
     public class ErrorHandlingMiddleware(ILogger<ErrorHandlingMiddleware>logger) : IMiddleware
     {
+
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
             try
             {
-                await next.Invoke(context);
+                await next.Invoke(context);// this will call the next middleware in the pipeline
             }
-            catch(NotFoundExceptions notFound)
+            catch(NotFoundExceptions notFound)  
             {
                 context.Response.StatusCode = StatusCodes.Status404NotFound;
                 await context.Response.WriteAsJsonAsync(
@@ -25,7 +26,7 @@ namespace Restaurants.API.Middlewares
                 context.Response.StatusCode = StatusCodes.Status500InternalServerError;
                 await context.Response.WriteAsJsonAsync(
                     new { message = "An error occurred while processing the request" }
-                    );
+         );
             }
         }
     }

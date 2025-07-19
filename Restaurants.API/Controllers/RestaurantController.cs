@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Restaurants.Application.Restaurants.Commands.CreateRestaurant;
+using Restaurants.Application.Restaurants.Commands.DeleteRestaurant;
+using Restaurants.Application.Restaurants.Commands.UpdateRestaurant;
 using Restaurants.Application.Restaurants.Dtos;
 using Restaurants.Application.Restaurants.Queries.GetAllRestaurants;
 using Restaurants.Application.Restaurants.Queries.GetRestaurantsById;
@@ -15,9 +17,11 @@ namespace Restaurants.API.Controllers
     public class RestaurantController(IMediator mediator) : ControllerBase
     {
         [HttpGet]
+        //also the resoan for using producesResponseType is to display the sample of the response in swagger with the status code we want 
         //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<RestaurantDto>))]
         public async Task<ActionResult<IEnumerable<RestaurantDto>>> GetAll()
         {
+            //the reason for making actionreesult is to display sample of the response in swagger 
             //var restaurants = await restaurantsServices.GetRestaurants();   
             var restaurants = await mediator.Send(new GetAllRestaurantsQuery());
             return Ok(restaurants);
@@ -47,6 +51,7 @@ namespace Restaurants.API.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RestaurantDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        //the making two of prodcuesresponsetype cuz there is two things will returned one is 200 ok and the other is 404 not found     
         public async Task<ActionResult<RestaurantDto>> GetById(int id)
         {
             var restaurant = await mediator.Send(new GetRestaurantByIdQuery(id));
@@ -64,22 +69,42 @@ namespace Restaurants.API.Controllers
         }
 
 
-        [HttpPut("{id}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Update(int id)
-        {
-            //if (id != updateRestaurantCommand.Id)
-            //{
-            //    return BadRequest();
-            //}
-            ////await restaurantsServices.UpdateRestaurant(updateRestaurantDto);
-            //await mediator.Send(updateRestaurantCommand);
-            return NoContent();
-        }
+        //[HttpPut("{id}")]
+        //[ProducesResponseType(StatusCodes.Status204NoContent)]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        //public async Task<IActionResult> Update(int id)
+        //{
+        //    //if (id != updateRestaurantCommand.Id)
+        //    //{
+        //    //    return BadRequest();
+        //    //}
+        //    ////await restaurantsServices.UpdateRestaurant(updateRestaurantDto);
+        //    //await mediator.Send(updateRestaurantCommand);
+        //    return NoContent();
+        //}
 
         //for delete we can put this too
         //[ProducesResponseType(StatusCodes.Status204NoContent)]
         //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPatch("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> UpdateRestaurant([FromRoute] int id, UpdateRestaurantCommand command)
+        {
+            command.Id = id;
+            await mediator.Send(command);
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteRestaurant([FromRoute] int id)
+        {
+            await mediator.Send(new DeleteRestaurantCommand(id));
+
+            return NoContent();
+        }
     }
 }

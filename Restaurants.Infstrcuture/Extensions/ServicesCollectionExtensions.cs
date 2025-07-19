@@ -23,6 +23,8 @@ namespace Restaurants.Infrastructure.Extensions
             //we add as scoped cuz also addDbcontext add as scoped
             services.AddScoped<IRestaurantSeeder, RestaurantSeeder>();
             services.AddScoped<IRestaurantsRepository, ResaurantsRepository>();
+            services.AddScoped<IDishesRepository, DishesRepository>();
+
         }
 
 

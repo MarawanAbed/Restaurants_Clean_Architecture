@@ -1,6 +1,7 @@
 ﻿
 
 using Restaurants.Application.Dishes;
+using Restaurants.Application.Dishes.Dtos;
 
 namespace Restaurants.Application.Restaurants.Dtos
 {
