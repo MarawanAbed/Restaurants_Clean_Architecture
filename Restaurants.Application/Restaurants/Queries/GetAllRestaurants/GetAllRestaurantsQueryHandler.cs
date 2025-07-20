@@ -2,6 +2,7 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Restaurants.Application.Common;
 using Restaurants.Application.Restaurants.Dtos;
 using Restaurants.Domain.Repositories;
 
@@ -19,7 +20,11 @@ namespace Restaurants.Application.Restaurants.Queries.GetAllRestaurants
             //that approach is bad cuz even if we filters he will get all the records still from database (in memory) and then filter it
             //so we need to make the filtering in the database side not in memory side
             var restaurants = await repository.GetRestaurants();
-            return mapper.Map<IEnumerable<RestaurantDto>>(restaurants);
+            var results= mapper.Map<IEnumerable<RestaurantDto>>(restaurants);
+            var result=new PageResult<RestaurantDto>(results, results.Count(), request.PageSize, request.PageNumber);
+
+            logger.LogInformation("Get all restaurants completed");
+            return result.Items;
         }
     }
 }
