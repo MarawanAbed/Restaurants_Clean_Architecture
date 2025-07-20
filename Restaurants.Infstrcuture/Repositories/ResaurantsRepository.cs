@@ -33,8 +33,16 @@ namespace Restaurants.Infrastructure.Repositories
 
         public async Task<IEnumerable<Restaurant>> GetRestaurants()
         {
-            var restaurants = await context.Restaurants.Include
-                (restaurants => restaurants.Dishes).ToListAsync();
+            var restaurants = await context.Restaurants.ToListAsync();
+            return restaurants;
+        }
+        public async Task<IEnumerable<Restaurant>> GetMatchingRestaurants(string? searchPharse)
+        {
+            var restaurants = await context.Restaurants
+                .Where(restaurant => restaurant.Name.ToLower().Contains(searchPharse.ToLower()) ||
+                                restaurant.Description.ToLower().Contains(searchPharse.ToLower())
+                               )
+                .ToListAsync();
             return restaurants;
         }
         public Task SaveChanges()

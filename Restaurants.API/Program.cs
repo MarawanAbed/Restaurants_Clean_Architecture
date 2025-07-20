@@ -32,16 +32,11 @@ namespace Restaurants.API
                 app.UseSwaggerUI();
             }
             app.UseSerilogRequestLogging();
-
             app.UseHttpsRedirection();
-
-            app.MapGroup("/api/identity").MapIdentityApi<User>();
+            app.MapGroup("/api/identity").MapIdentityApi<UserDomain>();
             //when we put it now we add afew identity endpoints like register , login ,refresh token , logout and get user info
-
             app.UseAuthorization();
-
             app.MapControllers();
-
             app.Run();
         }
     }

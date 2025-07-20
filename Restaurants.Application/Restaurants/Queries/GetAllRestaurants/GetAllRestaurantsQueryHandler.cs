@@ -12,7 +12,12 @@ namespace Restaurants.Application.Restaurants.Queries.GetAllRestaurants
     {
         public async Task<IEnumerable<RestaurantDto>> Handle(GetAllRestaurantsQuery request, CancellationToken cancellationToken)
         {
+            //var searchPhrase = request.SearchPharse.ToLower();
             logger.LogInformation("Get all restaurants");
+            //var restaurants = (await repository.GetRestaurants()).Where(r => r.Name.ToLower()
+            //.Contains(searchPhrase) || r.Description.Contains(searchPhrase));
+            //that approach is bad cuz even if we filters he will get all the records still from database (in memory) and then filter it
+            //so we need to make the filtering in the database side not in memory side
             var restaurants = await repository.GetRestaurants();
             return mapper.Map<IEnumerable<RestaurantDto>>(restaurants);
         }

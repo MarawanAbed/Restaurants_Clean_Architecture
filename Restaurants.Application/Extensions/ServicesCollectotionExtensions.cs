@@ -16,6 +16,7 @@ namespace Restaurants.Application.Extensions
             services.AddValidatorsFromAssembly(applicationAssembly)
                 .AddFluentValidationAutoValidation();
             services.AddMediatR(cfg=>cfg.RegisterServicesFromAssembly(applicationAssembly));
+            services.AddHttpContextAccessor();
         }
     }
 }

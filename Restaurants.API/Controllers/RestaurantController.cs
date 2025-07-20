@@ -19,7 +19,9 @@ namespace Restaurants.API.Controllers
         [HttpGet]
         //also the resoan for using producesResponseType is to display the sample of the response in swagger with the status code we want 
         //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<RestaurantDto>))]
-        public async Task<ActionResult<IEnumerable<RestaurantDto>>> GetAll()
+        //https://localhost:5001/api/restaurant?searchPharse=KFC
+        public async Task<ActionResult<IEnumerable<RestaurantDto>>> GetAll([FromQuery] GetAllRestaurantsQuery query)
+
         {
             //the reason for making actionreesult is to display sample of the response in swagger 
             //var restaurants = await restaurantsServices.GetRestaurants();   
