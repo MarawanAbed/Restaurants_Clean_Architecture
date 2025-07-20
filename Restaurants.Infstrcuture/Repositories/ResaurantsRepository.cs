@@ -19,15 +19,15 @@ namespace Restaurants.Infrastructure.Repositories
         public async Task Delete(Restaurant entity)
         {
 
-             context.Remove(entity);
-             await context.SaveChangesAsync();
+            context.Remove(entity);
+            await context.SaveChangesAsync();
         }
 
         public async Task<Restaurant?> GetRestaurantById(int id)
         {
             var restaurant = await context.Restaurants.Include
                 (restaurant => restaurant.Dishes)
-                .FirstOrDefaultAsync(restaurant => restaurant.Id == id);    
+                .FirstOrDefaultAsync(restaurant => restaurant.Id == id);
             return restaurant;
         }
 
@@ -38,10 +38,10 @@ namespace Restaurants.Infrastructure.Repositories
         }
         public async Task<IEnumerable<Restaurant>> GetMatchingRestaurants(string? searchPharse)
         {
+            string? searchPhraseLower = searchPharse?.ToLower();
             var restaurants = await context.Restaurants
-                .Where(restaurant => restaurant.Name.ToLower().Contains(searchPharse.ToLower()) ||
-                                restaurant.Description.ToLower().Contains(searchPharse.ToLower())
-                               )
+                          .Where(r => searchPhraseLower == null || (r.Name.ToLower().Contains(searchPhraseLower)
+                                                   || r.Description.ToLower().Contains(searchPhraseLower)))
                 .ToListAsync();
             return restaurants;
         }
